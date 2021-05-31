@@ -28,10 +28,25 @@ class User(db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.name)
 
+
+
+
 @app.route('/admin', methods=['GET', 'POST'])
 def home():
    users = User.query.all()
-   return render_template('index.html', users=users)       
+   return render_template('index.html', users=users) 
+
+@app.route('/', methods=['GET', 'POST'])
+def admin():
+   if request.method=='POST':
+       name = request.form['name'],
+       password= request.form['password']
+       print(name,password)
+       if name == 'Deepanshu' or password=='Deepu@291':
+            return redirect("/admin")
+       else:
+            render_template('login.html')     
+   return   render_template('login.html')  
 
 @app.route('/add',methods=['GET','POST'])
 def Add():
@@ -48,8 +63,8 @@ def Add():
 def update(sno):
     
     if request.method=='POST':
-        name = request.form['title'],
-        message= request.form['msg']
+        name = request.form['name'],
+        message= request.form['message']
         users = User.query.filter_by(sno=sno).first()
         users.name= name
         users.message= message 
